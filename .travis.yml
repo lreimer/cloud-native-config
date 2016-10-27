@@ -1,0 +1,38 @@
+sudo: required
+
+language: java
+
+services:
+  - docker
+
+jdk:
+  - oraclejdk8
+
+env:
+  global:
+    - secure: "bTJzKPr83q8Uur0aisFroVJPnBfXZnq6Px1ZmMYGIIhlJYzTmb3P7l0Ck2HtLakvnPzsUgQYZR6Sdv9MSyxMx8J1FDFmxXTlJVx5qaakUs4OENqU5CSyDEElsF47ecF4WVhAvPgUkrSA5ml0gzR/FvqVjbr5GuqaRd3KIvvOjgLFg858Y6oBYan9jv5t3VzaBFoZYU4qivhnuBjqeK1Bk5ZPJiLXt5PBBXmFsSrElL88CH+UOe5tVD6PKhrT6X8vBX213vKOMjrbM0RxbvqNvTx3V5qV3RjmgY0YWp2obs4if+jNluA3g2wlDLUjJ6cTWBUHaSYk/GMD3jzSRKY1ZPsNfYOAG1A8Sw6V6huJ41avQu9L/RugK1QrJ+U61y/7ZejI0WV+fMX4LPvmPaPjmVdrolfPAr/tV8c4IiC0dFoDBV5CMBD1aqkXmZnevj0Zlce3QsxWWMccqW/4nKYtmdlK5zQQIRRSuOYoPI4GFsQkDdFICKM6JpMul1o2/Qyz665DXQZdSCI1mEtmOJH/KLc3p6llCHdseM07xq19SyH7qKM5Cuo9WqIFVoZMn2ZKFeWnec4sCYDx75WWlKWsgx0s9iyUmw0MR9F6KgMaPNCaAN2bm1bAElmMOuWGMJoLN1d9Y3HY+Zn74hh2wdi4JvMhdV5m1PT48eqeK+x24J4=" # DOCKER_EMAIL
+    - secure: "Pw9siO+WWBQHkzATl7MGUCu/8EfiaNdv1LNFO0D+ickLGHFAf+D2JoN+OAkGKMOg8i43kCObVr3eyeYXHKvWMMYNdxIUqu0BQ5My7fimaAcmETeRoHm3yVFPu618n2sgq1zOotMqSVcy3O8RPujuU+z02f6KsAoa3AzPfjQl5/p1nJj6nU1k2FDTBNbPZ9FNYR5T8/dfP6abyf8EM4/ooKZPkm/te4x7N/gjD8CWj37j/yap5K2sH+01jXmi6G4rrmJ2Ax9BNZ8rJCMVrJ+bL9cnVXSUjb5R6OpxlGpRCLpQb9cov05cgfhfvuw0QalesZFgCOJAI34x9FOV5O+hp2CXnOH8bd+p8AWa03RIky6HLGghRqtnb2SsygulYxkNYahKewhY2//5qIm2PwuJd4ognnJKquLerhrBmRuudIYfxq/l/wYt3b6U6DldgKiKJhMEAzBipmVntTNhbrjr8PxMqugNjndyDFeg32kDOTKsHhK8CMKoqQSlhrw1DqX5kpXKybxnuAT2iNwyotRP/ogx1mhkmy8eZ68FtawO3jOcwKqS+5nD2uOON4qTl74vQoYi6FSiDunXI4cWB8HbWVp9Ej54+JWCFSfa3/ZcFy56siTyDczJQ0b7b3JQTfnSzXf0mMXqwtIbjxt14pV+bcyyvjg0vL+XrXaKLcT/N1c=" # DOCKER_USER
+    - secure: "J2Gvt0e2cCUcWeQ4lRd8jEpZTs+ychjpUU4C7NKbbPYEoDtPYcJOEG5Ydwnom+PT64KsM2b4ZgoB8pE0/dGrLeHusmhGYIcBiANmitGnsecbaz42CLsYrmPOCLgdu/792tAOwGU6M7r0PSTIa9WamLenkTMJw4a0RfdGonBcxjQOwAeSnSk8OMgVoZ9TSzZvh631o+JCXx+API38eYxIMc0DNDwrCCGzvyNfpHy3xULZNDWprid0SqdaQ7dy839HYkoEsZ5MM4qmLjMiUpmYEy/557O5xAiRTUshXwvnWkgYn0FUAYmPV5C7zcXJHWLJx6jnvrw60OjbcfY2QKgoQoce7y7AgrAVSek36GYN5cYNVYNJps/jLaps8U+NzUCTVBByqOHIlPUw+C5IfUbNqNjBbILuQMX0RmPJA95ypqte7JkPkmJ4BpefQUWSBpmlQbQiOflkfx1GbZOxB/X3fOJUnolzbgHcyZu/nK+uVfzjwiAwMxIIzPYWLP+4uj//k3/lVyttaO4N+J92SIWdFZtk7IlFSNA0dRIC+rQPaT05RkJlMrJ0HY5q7JmWa9YhGJ02SyKZfw8YTAgaoiDjdha8YRUzDm113ohmh4tWVGx1koOnfag98UvMH1uuBQJ9/f3UI8e9nf5McJdm1uf2xfJ0Caovw69O7cqTasN8GIk=" # DOCKER_PASS
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+before_install:
+  - chmod +x gradlew
+
+script: ./gradlew build
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=lreimer/cloud-native-config
+  - export TAG=`if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
