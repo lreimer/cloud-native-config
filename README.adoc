@@ -1,0 +1,27 @@
+image:https://travis-ci.org/lreimer/cloud-native-config.svg?branch=master["Build License", link="https://travis-ci.org/lreimer/cloud-native-config"]
+image:https://img.shields.io/badge/license-MIT%20License-blue.svg["MIT License", link="https://github.com/lreimer/cloud-native-javaee/blob/master/LICENSE"]
+
+= Cloud Native Config Server
+
+A small Spring Cloud Config server application used for demos and showcases.
+
+== Build instructions
+
+In order to compile and run the examples you do not need much.
+```shell
+$ ./gradlew clean build
+```
+
+== Running the Cloud Native Config Server
+
+```shell
+$ ./gradlew bootRun
+```
+
+== Maintainer
+
+M.-Leander Reimer (@lreimer)
+
+== License
+
+This software is provided under the MIT open source license, read the `LICENSE` file for details.
