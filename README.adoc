@@ -1,4 +1,4 @@
-image:https://travis-ci.org/lreimer/cloud-native-config.svg?branch=master["Build License", link="https://travis-ci.org/lreimer/cloud-native-config"]
+image:https://travis-ci.org/lreimer/cloud-native-config.svg?branch=master["Build Status", link="https://travis-ci.org/lreimer/cloud-native-config"]
 image:https://img.shields.io/badge/license-MIT%20License-blue.svg["MIT License", link="https://github.com/lreimer/cloud-native-javaee/blob/master/LICENSE"]
 
 = Cloud Native Config Server
