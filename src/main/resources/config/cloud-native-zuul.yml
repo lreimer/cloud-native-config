@@ -1,0 +1,11 @@
+zuul:
+  ignoredPatterns: /**/admin/**
+  routes:
+    dotnet:
+      path: /cloud-native-dotnet/**
+      serviceId: cloud-native-dotnet
+      stripPrefix: true
+    basta17:
+      path: /cloud-native-basta17/**
+      serviceId: cloud-native-basta17
+      stripPrefix: true
